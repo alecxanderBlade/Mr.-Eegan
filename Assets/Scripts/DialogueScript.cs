@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class DialogueScript : MonoBehaviour
 { 
@@ -107,7 +108,8 @@ public class DialogueScript : MonoBehaviour
         button_opacity.alpha = 1f;
         buttons.SetActive(true);
         logo.SetActive(true);
-        yield return new WaitForSeconds(12f);
+        yield return new WaitForSeconds(7f);
         buttons.SetActive(false);
+        SceneManager.LoadScene("MainScene");
     }
 }
