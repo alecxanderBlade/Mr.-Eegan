@@ -6,7 +6,9 @@ TagManager:
   tags:
   - Floor
   - Elevator_Light
-  - Btn
+  - Btn_Outside
+  - Btn_Inside
+  - Enable_Flashlight
   layers:
   - Default
   - TransparentFX
