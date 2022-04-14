@@ -9,6 +9,7 @@ TagManager:
   - Btn_Outside
   - Btn_Inside
   - Enable_Flashlight
+  - Peekabo
   layers:
   - Default
   - TransparentFX
@@ -16,7 +17,7 @@ TagManager:
   - PP
   - Water
   - UI
-  - 
+  - Flashlight
   - 
   - 
   - 

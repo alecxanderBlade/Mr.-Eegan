@@ -6,7 +6,7 @@ public class HitDetectionScript : MonoBehaviour
 {
     Ray line;
     [SerializeField]
-    private GameObject elevator_panel, btn_prompt, elevator_collider, garage, office, flashlight, flash_light;
+    private GameObject elevator_panel, btn_prompt, elevator_collider, garage, office, game_logic;
     [SerializeField]
     private Animator elevator_left, elevator_right;
     [SerializeField]
@@ -15,23 +15,20 @@ public class HitDetectionScript : MonoBehaviour
     private AudioSource elevator_open_audio, btn_audio;
     [SerializeField]
     private AudioClip elevator_close_audio;
-    private bool flash_on = true;
 
     // Start is called before the first frame update
     void Start()
     {
+        game_logic.GetComponent<GameObject>();
         elevator_open_audio.GetComponent<AudioSource>();
         btn_audio.GetComponent<AudioSource>();
         elevator_panel.GetComponent<GameObject>();
         btn_prompt.GetComponent<GameObject>();
         garage.GetComponent<GameObject>();
         office.GetComponent<GameObject>();
-        flashlight.GetComponent<GameObject>();
-        flash_light.GetComponent<GameObject>();
         elevator_left.GetComponent<Animator>();
         elevator_right.GetComponent<Animator>();
         elevator_collider.GetComponent<GameObject>();
-        flashlight.SetActive(true);
     }
 
     private void Elevators_Open(bool status)
@@ -86,16 +83,6 @@ public class HitDetectionScript : MonoBehaviour
         {
             btn_prompt.SetActive(false);
         }
-        if (Input.GetKeyDown(KeyCode.F) && flash_on == true)
-        {
-            flash_light.SetActive(false);
-            flash_on = false;
-        }
-        else if (Input.GetKeyDown(KeyCode.F) && flash_on == false)
-        {
-            flash_light.SetActive(true);
-            flash_on = true;
-        }
     }
     IEnumerator Load_Office()
     {
@@ -105,5 +92,7 @@ public class HitDetectionScript : MonoBehaviour
         yield return new WaitForSeconds(13f);
         office.SetActive(true);
         Elevators_Open(true);
+        elevator_open_audio.Play();
+        game_logic.SetActive(true);
     }
 }

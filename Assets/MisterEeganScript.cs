@@ -11,12 +11,6 @@ public class MisterEeganScript : MonoBehaviour
         mister_eegan.GetComponent<GameObject>();
         StartCoroutine(Disappear(mister_eegan));
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     IEnumerator Disappear(GameObject gameObject)
     {
         yield return new WaitForSeconds(4);
