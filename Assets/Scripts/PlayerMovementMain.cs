@@ -10,6 +10,8 @@ public class PlayerMovementMain : MonoBehaviour
     private CharacterController player;
     [SerializeField]
     private float mouse_sensitivity, move_speed;
+    [SerializeField]
+    private AudioSource footstep;
     float xRotation;
     private void Start()
     {
@@ -22,6 +24,7 @@ public class PlayerMovementMain : MonoBehaviour
     {
         Look();
         Move();
+        StartCoroutine(Stepping());
     }
     private void Move()
     {
@@ -41,5 +44,14 @@ public class PlayerMovementMain : MonoBehaviour
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
         cam.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         transform.Rotate(Vector2.up, mouse_x);
+    }
+    IEnumerator Stepping()
+    {
+        yield return new WaitForSeconds(1f);
+        if(player.velocity.sqrMagnitude > 0 && !footstep.isPlaying)
+        {
+            footstep.volume = 0.1f;
+            footstep.Play();
+        }
     }
 }

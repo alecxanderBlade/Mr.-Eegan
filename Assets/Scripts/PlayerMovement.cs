@@ -10,6 +10,8 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController player;
     [SerializeField]
     private float mouse_sensitivity, move_speed;
+    [SerializeField]
+    private AudioSource steps;
     float xRotation;
     private void Start()
     {
@@ -30,11 +32,16 @@ public class PlayerMovement : MonoBehaviour
     private void Move()
     {
         float x = Input.GetAxis("Horizontal"), z = Input.GetAxis("Vertical");
-
+        if (player.velocity.magnitude != 0f && !steps.isPlaying)
+        {
+            steps.volume = 0.1f;
+            steps.Play();
+        }
         Vector3 move = transform.right * x + transform.forward * z;
 
         player.Move(move * move_speed * Time.deltaTime);
         player.Move(new Vector3(0f, -3f, 0f) * Time.deltaTime);
+        
     }
     private void Look()
     {

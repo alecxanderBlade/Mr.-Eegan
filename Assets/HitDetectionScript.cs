@@ -14,14 +14,12 @@ public class HitDetectionScript : MonoBehaviour
     [SerializeField]
     private AudioSource elevator_open_audio, btn_audio;
     [SerializeField]
-    private AudioClip elevator_close_audio;
+    private AudioClip elevator_close_audio, elevator_go;
 
     // Start is called before the first frame update
     void Start()
     {
         game_logic.GetComponent<GameObject>();
-        elevator_open_audio.GetComponent<AudioSource>();
-        btn_audio.GetComponent<AudioSource>();
         elevator_panel.GetComponent<GameObject>();
         btn_prompt.GetComponent<GameObject>();
         garage.GetComponent<GameObject>();
@@ -71,6 +69,7 @@ public class HitDetectionScript : MonoBehaviour
                     Elevators_Open(false);
                     btn_audio.Play();
                     elevator_open_audio.PlayOneShot(elevator_close_audio);
+                    elevator_open_audio.PlayOneShot(elevator_go);
                     StartCoroutine(Load_Office());
                 }
             }
@@ -89,7 +88,7 @@ public class HitDetectionScript : MonoBehaviour
         yield return new WaitForSeconds(5f);
         elevator_collider.SetActive(false);
         Destroy(garage);
-        yield return new WaitForSeconds(13f);
+        yield return new WaitForSeconds(22f);
         office.SetActive(true);
         Elevators_Open(true);
         elevator_open_audio.Play();
