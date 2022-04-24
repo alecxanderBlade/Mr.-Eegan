@@ -10,6 +10,8 @@ TagManager:
   - Btn_Inside
   - Enable_Flashlight
   - Peekabo
+  - Disable_Entrance
+  - Quit
   layers:
   - Default
   - TransparentFX

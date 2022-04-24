@@ -1,32 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class HitDetectionScript : MonoBehaviour
 {
     Ray line;
     [SerializeField]
-    private GameObject elevator_panel, btn_prompt, elevator_collider, garage, office, game_logic;
+    private GameObject btn_prompt, elevator_collider, garage, office, game_logic, instructions;
     [SerializeField]
-    private Animator elevator_left, elevator_right;
+    private Animator elevator_left, elevator_right, entrance_door_open;
     [SerializeField]
     private float ray_length;
     [SerializeField]
-    private AudioSource elevator_open_audio, btn_audio;
+    private AudioSource elevator_open_audio, btn_audio, door_sound;
     [SerializeField]
-    private AudioClip elevator_close_audio, elevator_go;
+    private AudioClip elevator_close_audio, elevator_go, door_open, door_close;
+    [SerializeField]
+    private TextMeshPro level;
 
     // Start is called before the first frame update
     void Start()
     {
-        game_logic.GetComponent<GameObject>();
-        elevator_panel.GetComponent<GameObject>();
-        btn_prompt.GetComponent<GameObject>();
         garage.GetComponent<GameObject>();
-        office.GetComponent<GameObject>();
-        elevator_left.GetComponent<Animator>();
-        elevator_right.GetComponent<Animator>();
-        elevator_collider.GetComponent<GameObject>();
+        level.GetComponent<TextMeshPro>();
+        StartCoroutine(Instructions());
     }
 
     private void Elevators_Open(bool status)
@@ -73,6 +71,29 @@ public class HitDetectionScript : MonoBehaviour
                     StartCoroutine(Load_Office());
                 }
             }
+            else if (hit.collider.CompareTag("Disable_Entrance"))
+            {
+                btn_prompt.SetActive(true);
+                if (Input.GetKeyDown(KeyCode.E) && entrance_door_open.GetBool("IsOpen") == false)
+                {
+                    entrance_door_open.SetBool("IsOpen", true);
+                    door_sound.PlayOneShot(door_open);
+                }
+                else if (Input.GetKeyDown(KeyCode.E) && entrance_door_open.GetBool("IsOpen") == true)
+                {
+                    entrance_door_open.SetBool("IsOpen", false);
+                    door_sound.PlayOneShot(door_close);
+                }
+            }
+            else if (hit.collider.CompareTag("Quit"))
+            {
+                btn_prompt.SetActive(true);
+                if(Input.GetKeyDown(KeyCode.E))
+                {
+                    Application.Quit();
+                }
+                
+            }
             else
             {
                 btn_prompt.SetActive(false);
@@ -88,10 +109,20 @@ public class HitDetectionScript : MonoBehaviour
         yield return new WaitForSeconds(5f);
         elevator_collider.SetActive(false);
         Destroy(garage);
-        yield return new WaitForSeconds(22f);
+        for(int i = 0; i < 7; i++)
+        {
+            level.text = (i + 1).ToString();
+            yield return new WaitForSeconds(3.14285714286f);
+        }
         office.SetActive(true);
         Elevators_Open(true);
         elevator_open_audio.Play();
         game_logic.SetActive(true);
+    }
+    IEnumerator Instructions()
+    {
+        instructions.SetActive(true);
+        yield return new WaitForSeconds(5f);
+        Destroy(instructions);
     }
 }

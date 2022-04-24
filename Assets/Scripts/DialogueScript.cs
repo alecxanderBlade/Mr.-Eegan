@@ -17,12 +17,9 @@ public class DialogueScript : MonoBehaviour
     private void Start()
     {
         StartCoroutine(Audio_Clips());
-        buttons.GetComponent<GameObject>();
-        logo.GetComponent<GameObject>();
         button_opacity.GetComponent<CanvasGroup>();
         btn_text.GetComponent<TextMeshProUGUI>();
         btn.GetComponent<Button>().onClick.AddListener(Btn_Event);
-        buttons.SetActive(false);
     }
     private void Btn_Event()
     {
@@ -41,7 +38,7 @@ public class DialogueScript : MonoBehaviour
                 question_counter++;
                 break;
             case 7:
-                StartCoroutine(Btn_Fade_Out(question_counter, "What the fuck"));
+                StartCoroutine(Btn_Fade_Out(question_counter, "Unknown"));
                 question_counter++;
                 break;
             case 8:
@@ -107,7 +104,10 @@ public class DialogueScript : MonoBehaviour
         button_opacity.alpha = 1f;
         buttons.SetActive(true);
         logo.SetActive(true);
-        yield return new WaitForSeconds(7f);
+        audio.PlayOneShot(clips[11]);
+        yield return new WaitForSeconds(clips[11].length);
+        audio.PlayOneShot(clips[12]);
+        yield return new WaitForSeconds(4f);
         buttons.SetActive(false);
         SceneManager.LoadScene("MainScene");
     }
